@@ -19,7 +19,6 @@ app = FastAPI(title="Employee Attendance & Analytics API", version="2.0.0")
 
 @app.on_event("startup")
 def create_indexes():
-    # Unique indexes make concurrent duplicate writes impossible.
     db.employees.create_index([("emp_code", ASCENDING)], unique=True, name="uq_employee_code")
     db.employees.create_index([("department", ASCENDING), ("emp_code", ASCENDING)], name="ix_employee_department_code")
     db.employees.create_index([("joined_on", ASCENDING), ("department", ASCENDING)], name="ix_employee_joined_department")
