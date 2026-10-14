@@ -4,10 +4,10 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException, Query
 from pymongo import ASCENDING, DESCENDING, ReturnDocument
 from pymongo.errors import DuplicateKeyError
-from app.core.database import db
-from app.core.constants import UTC, PRESENCE, STATUSES
-from app.core.utils import (epoch_dt, stored_dt, attendance_date, late_minutes, calc_derived, serial_doc, require_employee, date_obj, dt_ms)
-from app.schemas.requests import PunchInIn, PunchOutIn, RegularizeIn
+from app.database import db
+from app.constants import UTC, PRESENCE, STATUSES
+from app.utils import (epoch_dt, stored_dt, attendance_date, late_minutes, calc_derived, serial_doc, require_employee, date_obj, dt_ms)
+from app.schemas import PunchInIn, PunchOutIn, RegularizeIn
 router = APIRouter(tags=["attendance"])
 
 @router.post("/attendance/punch-in",status_code=201)

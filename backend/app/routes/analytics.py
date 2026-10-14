@@ -2,9 +2,9 @@
 from datetime import datetime, date, time, timedelta
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Query
-from app.core.database import db
-from app.core.constants import PRESENCE
-from app.core.utils import (require_employee, month_bounds, date_obj, round_half_up, weekdays_between, present_expr)
+from app.database import db
+from app.constants import PRESENCE
+from app.utils import (require_employee, month_bounds, date_obj, round_half_up, weekdays_between, present_expr)
 router = APIRouter(tags=["analytics"])
 
 @router.get("/analytics/employees/{emp_code}/monthly")

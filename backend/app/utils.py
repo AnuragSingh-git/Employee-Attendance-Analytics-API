@@ -4,8 +4,8 @@ from datetime import datetime, date, time, timedelta, timezone
 from decimal import Decimal, ROUND_HALF_UP
 from fastapi import HTTPException
 from bson import ObjectId
-from app.core.database import db
-from app.core.constants import IST, UTC, PRESENCE, STATUSES
+from app.database import db
+from app.constants import IST, UTC, PRESENCE, STATUSES
 
 # ----- validation and conversion -----
 def date_obj(s: str) -> date:

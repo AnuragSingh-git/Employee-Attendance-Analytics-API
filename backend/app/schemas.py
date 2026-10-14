@@ -3,7 +3,7 @@ import re
 from datetime import date
 from typing import Optional, Literal
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator, model_validator
-from app.core.utils import epoch_dt
+from app.utils import epoch_dt
 
 
 class EmployeeIn(BaseModel):

@@ -4,10 +4,10 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException, Query
 from pymongo import ASCENDING
 from pymongo.errors import DuplicateKeyError, PyMongoError
-from app.core.database import client, db
-from app.core.constants import UTC
-from app.core.utils import dt_ms
-from app.schemas.requests import EmployeeIn
+from app.database import client, db
+from app.constants import UTC
+from app.utils import dt_ms
+from app.schemas import EmployeeIn
 router = APIRouter(tags=["employees", "health"])
 
 @router.post("/employees",status_code=201)

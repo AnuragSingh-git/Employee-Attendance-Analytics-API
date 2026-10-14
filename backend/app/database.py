@@ -1,6 +1,6 @@
 """MongoDB client and collection handles. One client is reused per process."""
 from pymongo import MongoClient, ASCENDING, DESCENDING
-from app.core.config import settings
+from app.config import settings
 client = MongoClient(settings.MONGO_URI, serverSelectionTimeoutMS=settings.MONGO_TIMEOUT_MS, tz_aware=False)
 db = client[settings.MONGO_DB]
 

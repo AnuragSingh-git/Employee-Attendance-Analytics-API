@@ -1,8 +1,8 @@
 """Database execution-plan diagnostics for the required list/report queries."""
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Query
-from app.core.database import db
-from app.core.utils import month_bounds, require_employee, date_obj, jsonable
+from app.database import db
+from app.utils import month_bounds, require_employee, date_obj, jsonable
 router = APIRouter(tags=["admin diagnostics"])
 
 @router.get("/admin/explain/{endpoint}")

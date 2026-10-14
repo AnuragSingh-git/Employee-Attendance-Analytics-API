@@ -1,7 +1,7 @@
 """Unit tests for deterministic business calculations; integration tests need MongoDB."""
 from datetime import datetime, timezone
 import pytest
-from app.core.utils import epoch_dt, round_half_up
+from app.utils import epoch_dt, round_half_up
 
 def test_epoch_milliseconds_rejects_seconds():
     with pytest.raises(Exception):
