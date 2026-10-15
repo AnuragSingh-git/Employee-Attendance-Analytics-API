@@ -383,7 +383,7 @@ class RegularizeIn(BaseModel):
 # Endpoints provided
 # --------------------------------------------------------------------------- #
 
-@app.get("/health")
+@app.get("/health", tags=["system"])
 def health():
     try:
         db.command("ping")
@@ -396,7 +396,7 @@ def health():
 
 
 
-@app.post("/employees", status_code=201)
+@app.post("/employees", status_code=201,tags=["employees"])
 def create_employee(body: EmployeeIn):
     doc = body.model_dump()
 
@@ -417,7 +417,7 @@ def create_employee(body: EmployeeIn):
 
 
 
-@app.get("/employees")
+@app.get("/employees",tags=["employees"])
 def list_employees(
     department: Optional[str] = None,
     page: int = Query(default=1, ge=1),
@@ -449,7 +449,7 @@ def list_employees(
 
 
 
-@app.post("/attendance/punch-in", status_code=201)
+@app.post("/attendance/punch-in", status_code=201,tags=["attendance"])
 def punch_in(body: PunchInIn):
     emp = db.employees.find_one({"emp_code": body.emp_code})
     if emp is None:
@@ -502,7 +502,7 @@ def punch_in(body: PunchInIn):
 
 
 
-@app.get("/attendance")
+@app.get("/attendance",tags=["attendance"])
 def list_attendance(
     emp_code: Optional[str] = None,
     date_from: Optional[str] = None,
@@ -556,7 +556,7 @@ def list_attendance(
     }
 
 
-@app.post("/attendance/punch-out", status_code=200)
+@app.post("/attendance/punch-out", status_code=200,tags=["attendance"])
 def punch_out(body: PunchOutIn):
     emp = db.employees.find_one({"emp_code": body.emp_code})
     if emp is None:
@@ -641,7 +641,7 @@ def punch_out(body: PunchOutIn):
     return public_attendance(updated)
 
 
-@app.patch("/attendance/{emp_code}/{date}")
+@app.patch("/attendance/{emp_code}/{date}", tags=["attendance"])
 def regularize_attendance(
     emp_code: str,
     date: str,
@@ -817,7 +817,7 @@ def regularize_attendance(
     updated = db.attendance_logs.find_one({"_id": old["_id"]})
     return public_attendance(updated)
 
-@app.get("/analytics/employees/{emp_code}/monthly")
+@app.get("/analytics/employees/{emp_code}/monthly",tags=["analytics"])
 def employee_monthly_analytics(
     emp_code: str,
     month: str = Query(..., description="Month in YYYY-MM format"),
@@ -925,7 +925,7 @@ def employee_monthly_analytics(
         "attendance_rate": round_half_up(attendance_rate, 4),
     }
 
-@app.get("/analytics/departments/summary")
+@app.get("/analytics/departments/summary", tags=["analytics"])
 def department_summary(
     month: str = Query(..., description="Month in YYYY-MM format"),
 ):
@@ -1015,7 +1015,7 @@ def department_summary(
 
     return {"month": month, "departments": result}
 
-@app.get("/analytics/leaderboard/late")
+@app.get("/analytics/leaderboard/late", tags=["analytics"])
 def late_arrival_leaderboard(
     date_from: str = Query(...),
     date_to: str = Query(...),
@@ -1098,7 +1098,7 @@ def late_arrival_leaderboard(
         "items": items,
     }
 
-@app.get("/analytics/departments/{department}/trend")
+@app.get("/analytics/departments/{department}/trend", tags=["analytics"])
 def department_daily_trend(
     department: str,
     date_from: str = Query(...),
@@ -1191,7 +1191,7 @@ def department_daily_trend(
         "trend": trend,
     }
 
-@app.get("/admin/explain/{endpoint}")
+@app.get("/admin/explain/{endpoint}", tags=["admin"])
 def explain_endpoint(endpoint: str):
     """
     Return MongoDB execution statistics for a representative query
@@ -1283,15 +1283,3 @@ def explain_endpoint(endpoint: str):
         "uses_index": any(stage == "IXSCAN" for stage in stages),
         "has_collection_scan": any(stage == "COLLSCAN" for stage in stages),
     }
-
-
-# --------------------------------------------------------------------------- #
-# TODO - the rest of the contract (see openapi.yaml):
-#   POST  /attendance/punch-out
-#   PATCH /attendance/{emp_code}/{date}
-#   GET   /analytics/employees/{emp_code}/monthly
-#   GET   /analytics/departments/summary
-#   GET   /analytics/leaderboard/late
-#   GET   /analytics/departments/{department}/trend
-#   GET   /admin/explain/{endpoint}
-# --------------------------------------------------------------------------- #

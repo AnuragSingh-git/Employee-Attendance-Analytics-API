@@ -1,7 +1,7 @@
 # DECISIONS.md  (about 150-200 words in total - plain language, your own words)
 
-1. **Indexes.** Which indexes did you create, and which query or guarantee does each one serve? Which one did you consider and reject?
-2. **Punch-in race.** Two identical punch-in requests arrive at the same instant. Walk through exactly what happens in your code.
-3. **Ties.** Two employees are tied on late minutes at the cutoff of `limit`. What does your leaderboard return, and why?
-4. **Headcount.** How does your department summary make sure employees with zero logs are counted?
-5. **One thing you would change** if this had to serve 100x the data.
+1. **Indexes.** I made five. A unique index on emp_code stops duplicate employees. A department and joined_on index serves the department summary. A unique index on emp_code and date gives one record per person per day. A date and emp_code index serves the date-range listings and the leaderboard. An emp_code, date and status index serves the monthly analytics. I rejected a separate index on late_minutes, because the date index already narrows the data and that field changes often.
+2. **Punch-in race.** Both requests pass validation and try to insert. MongoDB’s unique index lets only one insert succeed. The other raises DuplicateKeyError, which I turn into a 409. There is no check-then-insert gap.
+3. **Ties.** I use $rank, so employees tied at the cutoff all get the same rank and are all returned. The list can be longer than limit, which is fairer than dropping someone arbitrarily.
+4. **Headcount.** The summary starts from the employees collection, grouped by department, so people with no logs still count. Attendance is then looked up and defaults to zero.
+5. **One thing you would change** I’d stop calculating the summaries on the fly. A daily summary collection per department, updated on punch-in and punch-out, would replace the per-department loop and the large $in lists.
