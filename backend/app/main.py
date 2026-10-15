@@ -32,7 +32,7 @@ from pymongo.errors import DuplicateKeyError, PyMongoError
 
 load_dotenv()
 
-client = MongoClient(os.getenv("MongoDB_URI", "mongodb://localhost:27017"))
+client = MongoClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"))
 db = client[os.getenv("MONGO_DB", "attendance_db")]
 
 IST = timezone(timedelta(hours=5, minutes=30))
