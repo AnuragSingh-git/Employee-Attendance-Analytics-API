@@ -1,63 +1,68 @@
 ﻿
 # Employee Attendance and Analytics API
 
-A FastAPI application backed by MongoDB for employee management, attendance tracking, attendance regularization, and analytics.
+A REST API built with FastAPI and MongoDB for employee management, attendance tracking, attendance regularization, and attendance analytics.
 
 ## Requirements
 
 - Python 3.11+
 - Git
-- MongoDB 6.0+ (local instance or MongoDB Atlas)
+- MongoDB 6.0 or newer
 
-## Setup
+MongoDB can run locally or through a MongoDB Atlas cluster.
 
-1. Clone the repository.
-2. Create and activate a virtual environment.
-3. Install dependencies.
-4. Configure the MongoDB connection using environment variables expected by the application.
-5. Start the API.
+## Setup and Run
+
+Create and activate a virtual environment:
 
 ```bash
 python -m venv .venv
 ```
 
-Activate the environment:
+Activate it:
 
 - Windows: `.venv\Scripts\activate`
 - macOS/Linux: `source .venv/bin/activate`
 
-Install dependencies and run the application:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+
+Configure the MongoDB connection using the environment variables expected by the application. Start the API:
+
+```bash
 uvicorn app.main:app --reload
 ```
 
-Open `http://127.0.0.1:8000/docs` to explore and test the API.
+Interactive API documentation is available at `http://127.0.0.1:8000/docs`.
 
-## Implementation
+## Features
 
-The application is implemented in `app/main.py`. It uses FastAPI for HTTP endpoints, Pydantic for request validation, and PyMongo for MongoDB access and aggregation.
+- Employee creation and listing with pagination.
+- Attendance punch-in and punch-out.
+- Attendance listing and regularization.
+- Monthly employee attendance analytics.
+- Department attendance summaries.
+- Late-arrival leaderboard.
+- Daily department attendance trends.
+- MongoDB indexes and query-plan inspection through the explain endpoint.
 
-The project includes employee management, attendance operations, analytics, database indexes, and a MongoDB explain endpoint, to the extent completed below.
+## Technical Overview
 
-## Verification
+- **FastAPI** handles HTTP routes and request validation.
+- **Pydantic** validates incoming request data.
+- **PyMongo** provides database access and MongoDB aggregation pipelines.
+- **MongoDB** stores employee and attendance records and enforces unique indexes.
 
-Tests and manual checks performed:
+The API uses epoch milliseconds for timestamps at the API boundary and UTC datetimes for database storage. Attendance dates and shift calculations use India Standard Time (UTC+05:30).
 
-- [List the endpoints and scenarios you tested.]
-- [Mention whether analytics were checked against expected results.]
-- [Mention whether the explain endpoint was tested against the supplied dataset.]
+## Project Files
 
-## Known limitations / Missing work
-
-**Update this section honestly before submission.** List any incomplete endpoints, known bugs, missing tests, or requirements you have not verified.
-
-- [Write `None known` only if you have actually checked all required behaviour.]
-- [Otherwise, describe what is incomplete and what remains to be tested.]
-
-## Technical notes
-
-- `DECISIONS.md` documents implementation choices and trade-offs.
-- `REVIEW.md` documents review findings, fixes, and verification status.
-- `requirements.txt` lists the Python dependencies.
+- `app/main.py` — API endpoints and application logic.
+- `requirements.txt` — Python dependencies.
+- `DECISIONS.md` — technical decisions and trade-offs.
+- `REVIEW.md` — code review findings and verification status.
+- `openapi.yaml` — API contract, if included in the repository.
+- `DATA_MODEL.md` — data model documentation, if included in the repository.
