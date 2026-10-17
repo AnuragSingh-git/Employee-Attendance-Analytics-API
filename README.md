@@ -7,7 +7,7 @@ A REST API built with FastAPI and MongoDB for employee management, attendance tr
 
 - Python 3.11+
 - Git
-- MongoDB 6.0 or newer
+- MongoDB 6.0 or newer.
 
 MongoDB can run locally or through a MongoDB Atlas cluster.
 
