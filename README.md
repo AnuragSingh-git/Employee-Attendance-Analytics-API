@@ -47,7 +47,7 @@ Interactive API documentation is available at `http://127.0.0.1:8000/docs`.
 - Department attendance summaries.
 - Late-arrival leaderboard.
 - Daily department attendance trends.
-- MongoDB indexes and query-plan inspection through the explain endpoint.
+- MongoDB indexes and query-plan inspection through the explain endpoint
 
 ## Technical Overview
 
